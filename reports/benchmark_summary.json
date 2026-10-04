@@ -1,0 +1,99 @@
+{
+  "measured_at": "2026-10-04T22:13:46.352342+07:00",
+  "elapsed_seconds": 808.251784324646,
+  "evaluation_complete": true,
+  "comparison": {
+    "faithfulness": {
+      "naive": 0.8555555555555555,
+      "production": 0.8694444444444442,
+      "delta": 0.013888888888888729
+    },
+    "answer_relevancy": {
+      "naive": 0.5255012864777928,
+      "production": 0.5300944476435345,
+      "delta": 0.00459316116574171
+    },
+    "context_precision": {
+      "naive": 0.9333333332749998,
+      "production": 0.9749999999208331,
+      "delta": 0.041666666645833295
+    },
+    "context_recall": {
+      "naive": 0.9,
+      "production": 0.95,
+      "delta": 0.04999999999999993
+    }
+  },
+  "production_metrics_at_least_070": 3,
+  "naive_runtime": {
+    "pipeline": "naive",
+    "documents": 26,
+    "chunks": 57,
+    "dense_backend": "qdrant_server",
+    "embedding_model": "BAAI/bge-m3",
+    "embedding_fallback": false,
+    "llm_provider": "openrouter",
+    "llm_model": "openai/gpt-4o-mini",
+    "generation_fallbacks": 0,
+    "evaluation_retries": [
+      {
+        "question_number": 10,
+        "metrics": [
+          "answer_relevancy"
+        ],
+        "retry_status": "completed"
+      }
+    ],
+    "input_fingerprint": "48d0654d8662531d184d94234fdd5304246a51976a910f6040661a15a3e51b62",
+    "fingerprint_verified_against_unchanged_inputs": true,
+    "evaluation_configuration": {
+      "initial_max_tokens": null,
+      "initial_workers": 4,
+      "repair_max_tokens": 2048,
+      "repair_workers": 1,
+      "repaired_metrics": 1
+    }
+  },
+  "production_runtime": {
+    "pipeline": "production",
+    "documents": 26,
+    "chunks": 106,
+    "dense_backend": "qdrant_server",
+    "embedding_model": "BAAI/bge-m3",
+    "embedding_fallback": false,
+    "enrichment_mode": "combined",
+    "enrichment_chunks": 106,
+    "enrichment_fallbacks": 0,
+    "enrichment_cached_chunks": 0,
+    "llm_provider": "openrouter",
+    "llm_model": "openai/gpt-4o-mini",
+    "reranker_model": "BAAI/bge-reranker-v2-m3",
+    "generation_fallbacks": 0,
+    "reranking_fallbacks": 0,
+    "input_fingerprint": "48d0654d8662531d184d94234fdd5304246a51976a910f6040661a15a3e51b62",
+    "fingerprint_verified_against_unchanged_inputs": true,
+    "evaluation_configuration": {
+      "max_tokens": 2048,
+      "max_workers": 1
+    }
+  },
+  "elapsed_scope": "main.py --reuse-baseline: production and component benchmarks; baseline measured separately",
+  "baseline_reused": true,
+  "verification": {
+    "pytest": {
+      "tests": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "check_lab": "passed",
+    "ruff": "passed",
+    "git_diff_check": "passed",
+    "credential_scan": "passed"
+  },
+  "known_quality_limits": [
+    "Answer Relevancy below 0.70",
+    "Multi-hop question missing salary context",
+    "Numeric advance-fee calculation incorrect"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "model": "BAAI/bge-reranker-v2-m3",
+  "backend": "cross_encoder",
+  "candidates": 20,
+  "top_k": 3,
+  "runs": 5,
+  "model_load_included": false,
+  "warm_latency": {
+    "avg_ms": 2207.96856659872,
+    "min_ms": 1527.8462080023019,
+    "max_ms": 4701.4457500044955
+  }
+}

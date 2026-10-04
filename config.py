@@ -1,12 +1,33 @@
 """Shared configuration for Lab 18."""
 
 import os
+
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# --- API Keys ---
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+# --- LLM provider ---
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "").strip()
+if OPENROUTER_API_KEY in {"your_openrouter_api_key", "<your-openrouter-api-key>"}:
+    OPENROUTER_API_KEY = ""
+
+LLM_API_KEY = OPENROUTER_API_KEY
+LLM_BASE_URL = "https://openrouter.ai/api/v1"
+LLM_MODEL = os.getenv("LLM_MODEL", "openai/gpt-4o-mini").strip()
+LLM_EMBEDDING_MODEL = os.getenv("LLM_EMBEDDING_MODEL", "openai/text-embedding-3-small").strip()
+ANSWER_SYSTEM_PROMPT = (
+    "Trả lời trực tiếp, ngắn gọn bằng tiếng Việt, CHỈ dựa trên context. "
+    "Ưu tiên chính sách ghi rõ đang có hiệu lực; tài liệu đã bị thay thế chỉ dùng để đối chiếu. "
+    "Nếu câu hỏi cần tính toán, nêu phép tính từ các số liệu trong context. "
+    "Nếu thiếu dữ kiện hoặc có mâu thuẫn chưa xác định được hiệu lực, nói rõ thay vì đoán."
+)
+
+
+def create_llm_client():
+    """Create an OpenAI-compatible client routed through OpenRouter."""
+    from openai import OpenAI
+
+    return OpenAI(api_key=LLM_API_KEY, base_url=LLM_BASE_URL, timeout=60, max_retries=2)
 
 # --- Qdrant ---
 QDRANT_HOST = "localhost"

@@ -1,0 +1,11 @@
+{
+  "checked_at": "2026-10-04T21:48:05.947650+07:00",
+  "provider": "openrouter",
+  "authenticated": true,
+  "chat_ok": true,
+  "embeddings_ok": true,
+  "chat_model": "openai/gpt-4o-mini",
+  "embedding_model": "openai/text-embedding-3-small",
+  "auth_http_status": 200,
+  "embedding_dimensions": 1536
+}

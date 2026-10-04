@@ -6,9 +6,10 @@ Chạy: python check_lab.py
 """
 
 import json
+import math
 import os
-import sys
 import subprocess
+import sys
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -56,25 +57,53 @@ def check_todos() -> int:
     return count
 
 
-def run_tests() -> tuple[int, int]:
-    """Run pytest and return (passed, total)."""
+def check_eval_report(path: str) -> bool:
+    """Require actual, complete measurements rather than default scores."""
+    if not check_file(path):
+        return False
+    if not check_json(path, ["aggregate", "num_questions", "per_question"]):
+        return False
+    with open(path, encoding="utf-8") as f:
+        report = json.load(f)
+    with open("test_set.json", encoding="utf-8") as f:
+        expected = len(json.load(f))
+    aggregate = report["aggregate"]
+    rows = report["per_question"]
+    metrics = ("faithfulness", "answer_relevancy", "context_precision", "context_recall")
+    def valid_score(value):
+        return isinstance(value, (float, int)) and math.isfinite(value) and 0 <= value <= 1
+    complete = (aggregate.get("evaluation_status") == "completed"
+                and report["num_questions"] == expected and len(rows) == expected
+                and all(valid_score(aggregate.get(k)) for k in metrics)
+                and all(valid_score(row.get(k)) for row in rows for k in metrics))
+    if complete:
+        print(f"  ✅ {path} — {expected} câu hỏi có đủ 4 điểm RAGAS thật")
+    else:
+        print(f"  ❌ {path} — RAGAS chưa hoàn tất hoặc thiếu điểm đo")
+    return complete
+
+
+def run_tests() -> tuple[int, int, bool]:
+    """Run pytest and require an exit code of zero without collection errors."""
     try:
         import re
         result = subprocess.run(
-            [sys.executable, "-m", "pytest", "tests/", "-v", "--tb=no", "-q"],
-            capture_output=True, text=True, timeout=120, encoding="utf-8", errors="replace"
+            [sys.executable, "-m", "pytest", "tests/", "-v", "--tb=no", "-q",
+             "--junitxml=reports/pytest_results.xml"],
+            capture_output=True, text=True, timeout=300, encoding="utf-8", errors="replace", check=False
         )
-        lines = result.stdout.strip().split("\n")
-        summary = lines[-1] if lines else ""
+        summary = result.stdout + result.stderr
         m_pass = re.search(r"(\d+)\s+passed", summary)
         m_fail = re.search(r"(\d+)\s+failed", summary)
         passed = int(m_pass.group(1)) if m_pass else 0
         failed = int(m_fail.group(1)) if m_fail else 0
-        total = passed + failed
-        return passed, total
-    except Exception as e:
+        m_errors = re.search(r"(\d+)\s+errors?", summary)
+        errors = int(m_errors.group(1)) if m_errors else 0
+        total = passed + failed + errors
+        return passed, total, result.returncode == 0 and total > 0
+    except (OSError, subprocess.TimeoutExpired) as e:
         print(f"  ⚠️  pytest error: {e}")
-        return 0, 0
+        return 0, 0, False
 
 
 def validate():
@@ -90,16 +119,15 @@ def validate():
 
     # 2. Reports
     print("\n📊 Reports:")
-    if check_file("reports/ragas_report.json"):
-        if not check_json("reports/ragas_report.json", ["aggregate", "num_questions"]):
-            errors += 1
-    else:
+    if not check_eval_report("reports/ragas_report.json"):
         errors += 1
-    check_file("reports/naive_baseline_report.json", required=False)
+    if not check_eval_report("reports/naive_baseline_report.json"):
+        errors += 1
 
     # 3. Analysis
     print("\n📝 Analysis:")
-    check_file("analysis/failure_analysis.md")
+    if not check_file("analysis/failure_analysis.md"):
+        errors += 1
 
     # 4. Individual reflections
     print("\n👤 Individual reflections:")
@@ -117,6 +145,7 @@ def validate():
             print(f"  ✅ {r}")
     else:
         print(f"  ⚠️  Chưa có file reflection cá nhân (đặt tại {ref_dir}/reflection_[HọTên].md hoặc analysis/reflection_[HọTên].md)")
+        errors += 1
 
     # 5. TODO count
     print("\n🔧 TODO markers:")
@@ -125,15 +154,18 @@ def validate():
         print("  ✅ Không còn TODO nào")
     else:
         print(f"  ⚠️  Còn {todo_count} TODO chưa implement")
+        errors += 1
 
     # 6. Tests
     print("\n🧪 Auto-tests:")
-    passed, total = run_tests()
+    passed, total, tests_ok = run_tests()
     if total > 0:
         pct = passed / total * 100
-        print(f"  {'✅' if pct >= 80 else '⚠️'} {passed}/{total} tests passed ({pct:.0f}%)")
+        print(f"  {'✅' if tests_ok else '❌'} {passed}/{total} tests passed ({pct:.0f}%)")
     else:
         print("  ⚠️  Không chạy được tests")
+    if not tests_ok:
+        errors += 1
 
     # 7. Summary
     print("\n" + "=" * 50)
@@ -142,7 +174,8 @@ def validate():
     else:
         print(f"❌ Có {errors} lỗi. Sửa trước khi nộp.")
     print("=" * 50)
+    return errors == 0
 
 
 if __name__ == "__main__":
-    validate()
+    sys.exit(0 if validate() else 1)

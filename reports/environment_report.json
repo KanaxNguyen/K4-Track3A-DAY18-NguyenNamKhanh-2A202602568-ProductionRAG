@@ -1,0 +1,15 @@
+{
+  "measured_at": "2026-10-04T22:13:46.352342+07:00",
+  "python": "3.11.16",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "architecture": "arm64",
+  "embedding_model": "BAAI/bge-m3",
+  "packages": {
+    "sentence-transformers": "6.1.0",
+    "qdrant-client": "1.19.1",
+    "ragas": "0.1.22",
+    "langchain-openai": "0.1.25",
+    "openai": "1.109.1",
+    "pytest": "9.1.1"
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "indexed_documents": [
+    {
+      "source": "bang_luong_2024.md",
+      "text_characters": 773,
+      "text_sha256": "326f663b61746c93eedf0f3f2ede929af65670d670e9e72167a39798186b308c"
+    },
+    {
+      "source": "bao_hiem_suc_khoe.md",
+      "text_characters": 812,
+      "text_sha256": "1f36be9ed3fb40ffd4d74c0ee3df49ef35cf4a41af65449bbc516325e6cd63b5"
+    },
+    {
+      "source": "bao_mat_su_co.md",
+      "text_characters": 885,
+      "text_sha256": "79b36192e0f11bb608c61787e566ac57d3003d13c76877c07781626a2ef9c85b"
+    },
+    {
+      "source": "chi_phi_expense.md",
+      "text_characters": 902,
+      "text_sha256": "f2ab17759c98ade9168c3cf149dc0b4ff045286d6c50545dac5dc84d60a6427c"
+    },
+    {
+      "source": "cong_tac_phi.md",
+      "text_characters": 821,
+      "text_sha256": "c4d4b8570d4573499c4e72414423080d7330ddfaf2c77d286d5e279a0fa1cc98"
+    },
+    {
+      "source": "danh_gia_hieu_suat.md",
+      "text_characters": 818,
+      "text_sha256": "cfff4ee52d3e5c100d155c55caef0a7ecb2f795805aa1440918b5df16df645c3"
+    },
+    {
+      "source": "dao_tao_noi_bo.md",
+      "text_characters": 697,
+      "text_sha256": "9df71ea1a8da4bff278786775af69836aca3b35115010d718c88faafbf595449"
+    },
+    {
+      "source": "hoan_chi_dao_tao.md",
+      "text_characters": 804,
+      "text_sha256": "283a0a64182d01e2ed3ac6a5d845bbb649e93819d01ac92b3a62dab060bd66dd"
+    },
+    {
+      "source": "ky_luong.md",
+      "text_characters": 770,
+      "text_sha256": "694b82da5f6c027dda52f716f8afdcf946c2ed164130f394be5ed28232143698"
+    },
+    {
+      "source": "lam_viec_tu_xa.md",
+      "text_characters": 836,
+      "text_sha256": "e7a72c4c9b331dfb4987a4bf5706e701f49c365f518e75bbd387df8fe890b7be"
+    },
+    {
+      "source": "mat_khau_v1.md",
+      "text_characters": 642,
+      "text_sha256": "adbad1f2b35c4e3b25de558ff410d9ade00256050b9276c529c616bea98b06dc"
+    },
+    {
+      "source": "mat_khau_v2.md",
+      "text_characters": 814,
+      "text_sha256": "35ace463e137f605ff06d48fba26aadafe6bcc6eb118d5582b4149fb35993d90"
+    },
+    {
+      "source": "mentor_buddy.md",
+      "text_characters": 912,
+      "text_sha256": "a71f801fc2eef2a84f74b70d978af8c332009df6abbd5cd65af4900325426f7a"
+    },
+    {
+      "source": "mua_sam.md",
+      "text_characters": 843,
+      "text_sha256": "bf055b88eba0b1ce6f9ea9894ff32b1e826191b5b43468db2469e7586591ae2e"
+    },
+    {
+      "source": "nghi_om.md",
+      "text_characters": 801,
+      "text_sha256": "6fc497f5d7d087324fd2dd9b1124ac0358ac4f70c2c5c39c01a1618b2bcaea5d"
+    },
+    {
+      "source": "nghi_phep_dac_biet.md",
+      "text_characters": 784,
+      "text_sha256": "2771844a0abd4d17f90a0cb49bead333f13041837be6036d694d5ad5d16c3753"
+    },
+    {
+      "source": "nghi_phep_khong_luong.md",
+      "text_characters": 827,
+      "text_sha256": "25e55a44404c90fad60dbf06ae33f99e3d9386a09ab334a081599fa93f4b117d"
+    },
+    {
+      "source": "nghi_phep_nam_v2023.md",
+      "text_characters": 793,
+      "text_sha256": "a99281ea7052175b044409a94aa0894e1465333ddb511ad105d1f99dbf80515a"
+    },
+    {
+      "source": "nghi_phep_nam_v2024.md",
+      "text_characters": 848,
+      "text_sha256": "197008c2fb356a82de51889642f4c099ce22e8135dc661216ee8810f2bebb8a5"
+    },
+    {
+      "source": "phan_loai_du_lieu.md",
+      "text_characters": 909,
+      "text_sha256": "d4d3ab5cb14d03e6224b3c38b980464959e7e32337cbe9af689344c5210b6010"
+    },
+    {
+      "source": "phu_cap.md",
+      "text_characters": 862,
+      "text_sha256": "3829e7df4a79245786aba82783dd3bf451567c5e9c093941402512ce7d64e6b5"
+    },
+    {
+      "source": "tam_ung.md",
+      "text_characters": 841,
+      "text_sha256": "bc3366b55cbcf2d8251ef047a872a28f7af5b8f9ad21482ce7d5c9f54eb59165"
+    },
+    {
+      "source": "thu_viec.md",
+      "text_characters": 911,
+      "text_sha256": "a1daf7c9e3fedd7f791b39595f568032f838f9f21d99708a9b0ca7deee689ddb"
+    },
+    {
+      "source": "thuong_tet.md",
+      "text_characters": 778,
+      "text_sha256": "965ae93e0f64bb3ce1291bb4a69e554c11659d1eadc1699265543bbe72119d51"
+    },
+    {
+      "source": "vpn_truy_cap.md",
+      "text_characters": 728,
+      "text_sha256": "2c605b0c88805943b96c7e82162dbbdb1c03af94fc84d0653f99cccad26066e2"
+    },
+    {
+      "source": "so_tay_an_toan.pdf",
+      "text_characters": 565,
+      "text_sha256": "cff61beb3b6ecce33e6bf93e709058b5a5f0a942875d2516afaa1e9d2d36caa2"
+    }
+  ],
+  "skipped_scan_pdfs": [
+    "BCTC.pdf",
+    "Nghi_dinh_so_13-2023_ve_bao_ve_du_lieu_ca_nhan_508ee.pdf"
+  ],
+  "test_set_sha256": "d6b607ce46067a877bbd7e27ae0af71d2f64f571a3e69da700ff9ff6b743c1c3",
+  "input_fingerprint": "48d0654d8662531d184d94234fdd5304246a51976a910f6040661a15a3e51b62"
+}

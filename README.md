@@ -21,7 +21,7 @@ Xem **ASSIGNMENT.md** để biết chi tiết từng module và timeline.
 |-----------|-----------|----------|
 | Docker (Qdrant) | ✅ Có | M2 Dense Search |
 | Python 3.11+ | ✅ Có | Tất cả modules (RAGAS cần 3.11+ cho asyncio) |
-| `OPENAI_API_KEY` | ⚠️ M4+M5 | RAGAS eval (M4), Enrichment LLM (M5) |
+| `OPENROUTER_API_KEY` | ⚠️ M4+M5 | LLM answers, RAGAS eval (M4), Enrichment LLM (M5) |
 
 **Pre-download models** (tránh timeout trong lab):
 ```bash
@@ -57,7 +57,7 @@ python -m venv .venv
 ```bash
 docker compose up -d                    # Khởi động Qdrant vector database
 pip install -r requirements.txt
-cp .env.example .env                    # Tạo file .env và điền OPENAI_API_KEY
+cp .env.example .env                    # Tạo file .env và điền OPENROUTER_API_KEY
 python naive_baseline.py                # Khởi tạo baseline
 ```
 
@@ -65,7 +65,7 @@ python naive_baseline.py                # Khởi tạo baseline
 ```powershell
 docker compose up -d                    # Khởi động Qdrant vector database
 pip install -r requirements.txt
-Copy-Item .env.example .env             # Tạo file .env và điền OPENAI_API_KEY
+Copy-Item .env.example .env             # Tạo file .env và điền OPENROUTER_API_KEY
 python naive_baseline.py                # Khởi tạo baseline
 ```
 *(Nếu dùng Windows CMD: dùng `copy .env.example .env` thay cho `Copy-Item`)*
@@ -76,6 +76,31 @@ python naive_baseline.py                # Khởi tạo baseline
 python main.py                          # Chạy Naive + Production + In bảng so sánh
 python check_lab.py                     # Script kiểm tra hợp lệ trước khi nộp (chạy được trên mọi OS)
 ```
+
+Chạy các lệnh bằng Python trong `.venv` sau khi kích hoạt môi trường. Có thể kiểm tra
+OpenRouter độc lập bằng `python scripts/check_openrouter.py`: script kiểm tra auth,
+chat và embeddings, lưu `reports/openrouter_check.json` mà không ghi giá trị key.
+`.env` và các file `.env.*` chứa key đều bị Git ignore; `.env.example` chỉ chứa giá trị mẫu.
+
+Unit tests dùng fallback hoặc mock cho API để không phụ thuộc tài khoản và không phát sinh
+API calls. `python main.py` chạy benchmark thật qua OpenRouter, yêu cầu Qdrant và cache
+của cả 3 model. Lệnh này sinh báo cáo baseline/production trên 20 câu hỏi, bảng so sánh,
+benchmark 4 chiến lược chunking và latency reranker sau khi model đã load. API calls có phí
+theo tài khoản OpenRouter.
+
+Combined enrichment lưu các response thành công trong `.cache/enrichment/` (Git ignore).
+Cache phụ thuộc nội dung chunk, nguồn, model và phiên bản prompt. Để tiếp tục sau một lỗi
+dịch vụ, dùng `python main.py --reuse-baseline` khi baseline đã hoàn tất; lệnh kiểm tra
+fingerprint corpus, test set và model trước khi tái sử dụng. RAGAS giới hạn output
+2.048 token và một worker để tránh lỗi 402 do đặt trước quá nhiều ngân sách in-flight.
+`python scripts/repair_ragas.py reports/naive_baseline_report.json` chỉ thử lại các câu
+có điểm thiếu từ câu trả lời/context đã lưu và giữ nguyên mọi điểm đo hợp lệ.
+
+Các báo cáo bổ sung: `benchmark_summary.json`, `chunking_report.json`,
+`reranker_benchmark.json`, `latency_report.json`, `environment_report.json` và
+`input_manifest.json` trong `reports/`. Mỗi RAGAS report lưu đủ 20 câu trả lời, context,
+ground truth, điểm từng câu và các backend/fallback đã dùng. Validator chỉ báo sẵn sàng
+khi tất cả test pass và cả hai report có đủ điểm hợp lệ, trạng thái `completed`.
 
 ## Cấu trúc repo
 
